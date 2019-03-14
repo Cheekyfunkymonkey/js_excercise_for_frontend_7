@@ -19,12 +19,13 @@
       return response.json();
     })
     .then(data => {
+      const ulContainer = document.getElementById("quiz-list");
+
       data.results.forEach((value, index) => {
-        const ulContainer = document.getElementById("quiz-list");
-        const liElement1 = document.createElement("li");
-        liElement1.textContent = `${index + 1}件目のクイズデータ`;
-        ulContainer.appendChild(liElement1);
-        liElement1.appendChild(buildQuizList(value));
+        const liElement = document.createElement("li");
+        liElement.textContent = `${index + 1}件目のクイズデータ`;
+        ulContainer.appendChild(liElement);
+        liElement.appendChild(buildQuizList(value));
       });
     });
 
@@ -43,19 +44,11 @@
   //    - ul要素のDOM
   function buildQuizList(quiz) {
     const quizList = document.createElement("ul");
-    const properties = [
-      "category",
-      "type",
-      "difficulty",
-      "question",
-      "correct_answer",
-      "incorrect_answers"
-    ];
-    properties.forEach((value, index) => {
+    for (let prop in quiz) {
       const quizItem = document.createElement("li");
-      quizItem.innerHTML = `<strong>${value}</strong> : ${quiz[value]}`;
+      quizItem.innerHTML = `<strong>${prop}</strong> : ${quiz[prop]}`;
       quizList.appendChild(quizItem);
-    });
+    }
     return quizList;
   }
 })();
